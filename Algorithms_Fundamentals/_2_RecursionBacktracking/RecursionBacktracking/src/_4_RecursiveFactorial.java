@@ -6,7 +6,7 @@ public class _4_RecursiveFactorial {
 
         int n = scan.nextInt();
 
-d        long result = calculateFactorial(n);
+        long result = calculateFactorial(n);
 
         System.out.println(result);
 
