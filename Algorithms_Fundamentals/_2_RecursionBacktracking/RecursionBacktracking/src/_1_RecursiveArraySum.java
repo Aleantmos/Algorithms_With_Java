@@ -18,10 +18,10 @@ public class _1_RecursiveArraySum {
 
     public static int sumNumber(int[] numbers, int index) {
 
-        if (index >= numbers.length) {
+        if (index < 0) {
             return 0;
         }
 
-        return numbers[index] + sumNumber(numbers, index + 1);
+        return numbers[index] + sumNumber(numbers, index - 1);
     }
 }
