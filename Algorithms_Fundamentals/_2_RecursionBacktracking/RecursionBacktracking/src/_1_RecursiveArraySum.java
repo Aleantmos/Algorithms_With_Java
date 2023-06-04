@@ -14,7 +14,7 @@ public class _1_RecursiveArraySum {
         sum = sumNumber(arr, arr.length - 1);
 
         System.out.println("Iteration sum: " + sum);
-    }
+     }
 
     public static int sumNumber(int[] numbers, int index) {
 
