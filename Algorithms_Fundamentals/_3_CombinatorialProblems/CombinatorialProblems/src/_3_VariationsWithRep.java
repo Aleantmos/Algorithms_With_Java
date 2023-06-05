@@ -1,7 +1,6 @@
-import java.util.HashSet;
 import java.util.Scanner;
 
-public class _3_Variations {
+public class _3_VariationsWithRep {
     public static String[] elements;
     public static String[] variations;
     public static boolean[] used;
@@ -27,12 +26,9 @@ public class _3_Variations {
             return;
         }
         for (int i = 0; i < elements.length; i++) {
-            if (!used[i]) {
-                used[i] = true;
-                variations[index] = elements[i];
-                variations(index + 1);
-                used[i]= false;
-            }
+            variations[index] = elements[i];
+            variations(index + 1);
+
         }
 
     }
