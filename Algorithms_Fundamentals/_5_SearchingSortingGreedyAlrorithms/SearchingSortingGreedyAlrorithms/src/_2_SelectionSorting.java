@@ -1,4 +1,4 @@
-public class _2_Sorting {
+public class _2_SelectionSorting {
     public static void main(String[] args) {
         int[] arr = {5, 4, 3, 2, 1};
 
