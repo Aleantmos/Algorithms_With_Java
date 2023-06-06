@@ -1,24 +1,24 @@
-public class _2_SelectionSorting {
+public class _3_BubbleSort {
     public static void main(String[] args) {
-        int[] arr = {5, 4, 3, 2, 1};
+        int[] arr = {4, 3, 5, 6, 2, 1};
 
         sort(arr);
 
-        for(int i : arr) {
+        for (int i : arr) {
             System.out.print(i + " ");
         }
     }
 
     public static void sort(int[] arr) {
 
-        for (int index = 0; index < arr.length; index++) {
-            int min = index;
-            for (int curr = index + 1; curr < arr.length; curr++) {
-                if (arr[curr] < arr[min]) {
-                    min = curr;
+        for (int i = 0; i < arr.length; i++) {
+            for (int j = 0; j < arr.length - 1; j++) {
+                if (arr[j] > arr[j + 1]) {
+                    swap(arr, j, j + 1);
                 }
+
             }
-            swap(arr, index, min);
+
         }
     }
 
