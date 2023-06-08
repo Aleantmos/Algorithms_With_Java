@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class _5_PathsInLabyrinth {
+public class _5_FindAllPathsInLabyrinth {
 
     static List<Character> path = new ArrayList<>();
     public static void main(String[] args) {
@@ -38,15 +38,16 @@ public class _5_PathsInLabyrinth {
         findPath(labyrinth, row - 1, col, 'U');
         findPath(labyrinth, row + 1, col, 'D');
         findPath(labyrinth, row, col - 1, 'L');
-        findPath(labyrinth, row, col - 1, 'R');
+        findPath(labyrinth, row, col + 1, 'R');
 
         labyrinth[row][col] = '-';
+        path.remove(path.size() - 1);
 
     }
 
     private static void printPath() {
         for (int i = 1; i < path.size(); i++) {
-            System.out.println(path.get(i));
+            System.out.print(path.get(i));
         }
         System.out.println();
     }
