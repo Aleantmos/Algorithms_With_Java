@@ -27,8 +27,9 @@ public class Main {
         for (Deque<Integer> connectedComponent : connectedComponents) {
             System.out.print("Connected component: ");
             for (Integer integer : connectedComponent) {
-                System.out.println(integer + " ");
+                System.out.print(integer + " ");
             }
+            System.out.println();
         }
 
     }
@@ -42,10 +43,31 @@ public class Main {
             if (!visited[start]) {
                 components.add(new ArrayDeque<>());
                 dfs(start, components, graph, visited);
+                //bfs(start, components, graph, visited);
             }
         }
 
         return components;
+    }
+
+    private static void bfs(int start, List<Deque<Integer>> components, List<List<Integer>> graph, boolean[] visited) {
+        Deque<Integer> queue = new ArrayDeque<>();
+
+        visited[start] = true;
+        queue.offer(start);
+
+        while (!queue.isEmpty()) {
+            int node = queue.poll();
+
+            components.get(components.size() - 1).offer(node);
+
+            for (int child : graph.get(node)) {
+                if (!visited[child]) {
+                    visited[child] = true;
+                    queue.offer(child);
+                }
+            }
+        }
     }
 
     private static void dfs(int node,
