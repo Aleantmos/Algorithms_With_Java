@@ -1,4 +1,6 @@
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class _2_LongestIncreasingSubsequence {
@@ -11,18 +13,43 @@ public class _2_LongestIncreasingSubsequence {
                 .toArray();
 
         int[] length = new int[sequence.length];
+        int[] prev = new int[sequence.length];
+
+        Arrays.fill(prev, -1);;
+
+        int maxLength = 0;
+        int maxIndex = -1;
 
         for (int i = 0; i < sequence.length; i++) {
             int curr = sequence[i];
             int bestLength = 1;
+            int bestIndex = -1;
 
             for (int j = i - 1; j >= 0; j-- ) {
                 if (sequence[j] < curr && length[j] + 1 > bestLength) {
                     bestLength = length[j] + 1;
+                    bestIndex = j;
                 }
             }
+            prev[i] = bestIndex;
             length[i] = bestLength;
+            if (maxLength < bestLength) {
+                maxLength = bestLength;
+                maxIndex = i;
+            }
         }
-        System.out.println(Arrays.stream(length).max().getAsInt());
+        List<Integer> LIS = new ArrayList<>();
+        LIS.add(sequence[maxIndex]);
+
+        int index = maxIndex;
+
+        while (index != -1) {
+            LIS.add(sequence[index]);
+            index = prev[index];
+        }
+
+        for (int i = LIS.size() - 1; i >= 0; i--) {
+            System.out.print(LIS.get(i) + " ");
+        }
     }
 }
