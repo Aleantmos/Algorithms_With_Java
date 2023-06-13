@@ -26,7 +26,7 @@ public class _2_LongestIncreasingSubsequence {
             int bestIndex = -1;
 
             for (int j = i - 1; j >= 0; j-- ) {
-                if (sequence[j] < curr && length[j] + 1 > bestLength) {
+                if (sequence[j] < curr && length[j] + 1 >= bestLength) {
                     bestLength = length[j] + 1;
                     bestIndex = j;
                 }
