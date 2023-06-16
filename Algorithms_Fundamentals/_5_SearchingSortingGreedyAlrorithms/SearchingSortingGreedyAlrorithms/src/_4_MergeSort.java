@@ -1,20 +1,19 @@
 public class _4_MergeSort {
-    //todo redo
     public static void main(String[] args) {
-        int[] arr = {5, 4, 3, 2, 1};
+        //Scanner scan = new Scanner(System.in);
 
+        int[] arr = {13, 15, 12, 24, 59};
+        
         sort(arr);
 
-        for (int rand : arr) {
-            System.out.print(rand);
+        for (int num : arr) {
+            System.out.print(num + " ");
         }
+
     }
 
-    public static void sort(int[] arr) {
-        int start = 0;
-        int end = arr.length - 1;
-
-        mergeSort(arr, start, end);
+    private static void sort(int[] arr) {
+        mergeSort(arr, 0, arr.length);
     }
 
     private static void mergeSort(int[] arr, int begin, int end) {
@@ -34,6 +33,7 @@ public class _4_MergeSort {
         if (mid < 0 || mid >= arr.length || arr[mid] < arr[mid + 1]) {
             return;
         }
+
         int left = begin;
         int right = mid + 1;
 
@@ -42,6 +42,7 @@ public class _4_MergeSort {
         for (int i = begin; i <= end; i++) {
             helper[i] = arr[i];
         }
+
         for (int i = begin; i <= end; i++) {
             if (left > mid) {
                 arr[i] = helper[right++];
@@ -53,12 +54,6 @@ public class _4_MergeSort {
                 arr[i] = helper[right++];
             }
         }
-
     }
 
-    private static void swap(int[] arr, int first, int second) {
-        int temp = arr[first];
-        arr[first] = arr[second];
-        arr[second] = temp;
-    }
 }
