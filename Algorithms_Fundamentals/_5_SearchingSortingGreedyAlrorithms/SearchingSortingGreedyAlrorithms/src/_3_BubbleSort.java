@@ -1,28 +1,35 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class _3_BubbleSort {
     public static void main(String[] args) {
-        int[] arr = {4, 3, 5, 6, 2, 1};
+        Scanner scan = new Scanner(System.in);
+
+        int[] arr = Arrays.stream(scan.nextLine().split("\\s+"))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
         sort(arr);
 
-        for (int i : arr) {
-            System.out.print(i + " ");
+        for (int num : arr) {
+            System.out.print(num + " ");
         }
     }
 
-    public static void sort(int[] arr) {
+    private static void sort(int[] arr) {
 
         for (int i = 0; i < arr.length; i++) {
-            for (int j = 0; j < arr.length - i - 1; j++) {
-                if (arr[j] < arr[j + 1]) {
-                    swap(arr, j, j + 1);
+            for (int j = i + 1; j < arr.length; j++) {
+                if (arr[i] > arr[j]) {
+                    swap(arr, i, j);
                 }
             }
         }
     }
 
-    private static void swap(int[] arr, int first, int second) {
-        int temp = arr[first];
-        arr[first] = arr[second];
-        arr[second] = temp;
+    private static void swap(int[] arr, int i, int min) {
+        int temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
     }
 }
