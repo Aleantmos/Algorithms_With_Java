@@ -11,25 +11,15 @@ public class _6_QueensPuzzle {
             {'-', '-', '-', '-', '-', '-', '-', '-',},
     };
 
-    public static boolean[][] freePositions = new boolean[8][8];
-
     public static void main(String[] args) {
-
-        for (int row = 0; row < 8; row++) {
-            for (int col = 0; col < 8; col++) {
-                freePositions[row][col] = true;
-            }
-        }
-
         findQueenPositions(0);
-
     }
 
     private static void findQueenPositions(int row) {
         if (row == 8) {
-            printSolution();
+            print();
         } else {
-            for (int col = 0; col < 7; col++) {
+            for (int col = 0; col < 8; col++) {
                 if (canPlaceQueen(row, col)) {
                     putQueen(row, col);
                     findQueenPositions(row + 1);
@@ -37,62 +27,75 @@ public class _6_QueensPuzzle {
                 }
             }
         }
+
     }
 
     private static void removeQueen(int row, int col) {
         board[row][col] = '-';
-        markFreePositions(row, col, true);
     }
 
     private static void putQueen(int row, int col) {
         board[row][col] = '*';
-        markFreePositions(row, col, false);
+
     }
 
-    private static void markFreePositions(int row, int col, boolean value) {
+    private static boolean canPlaceQueen(int row, int col) {
+        for (int r = 0; r < 8; r++) {
 
-        for (int c = 0; c < 8; c++) {
-            freePositions[row][c] = value;
+            if (board[r][col] == '*') {
+                return false;
+            }
         }
 
-        int r = row;
-        int c = col;
+        for (int c = 0; c < 8; c++) {
+
+            if (board[row][c] == '*') {
+                return false;
+            }
+        }
+
+        int r = row, c = col ;
 
         while (r >= 0 && c >= 0) {
-            freePositions[r--][c--] = value;
+            if (board[r--][c--] == '*') {
+                return false;
+            }
         }
 
         r = row;
         c = col;
 
         while (r < 8 && c < 8) {
-            freePositions[r++][c++] = value;
+            if (board[r++][c++] == '*') {
+                return false;
+            }
         }
 
         r = row;
         c = col;
-
         while (r >= 0 && c < 8) {
-            freePositions[r--][c++] = value;
+            if (board[r--][c++] == '*') {
+                return false;
+            }
         }
-
 
         r = row;
         c = col;
 
         while (r < 8 && c >= 0) {
-            freePositions[r++][c--] = value;
+            if (board[r++][c--] == '*') {
+                return false;
+            }
         }
+        return true;
     }
 
-    private static boolean canPlaceQueen(int row, int col) {
-        return !freePositions[row][col];
-    }
 
-    public static void printSolution() {
-        for(char[] chars : board) {
+
+    public static void print() {
+        for (char[] chars : board) {
             for (char symbol : chars) {
-                System.out.println(symbol + " ");
+                System.out.print(symbol + " ");
             }
             System.out.println();
         }
