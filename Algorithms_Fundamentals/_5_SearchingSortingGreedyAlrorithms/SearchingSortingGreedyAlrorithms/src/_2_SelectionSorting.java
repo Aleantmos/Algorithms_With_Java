@@ -1,30 +1,38 @@
+import java.util.Arrays;
+import java.util.Scanner;
+
 public class _2_SelectionSorting {
     public static void main(String[] args) {
-        int[] arr = {5, 4, 3, 2, 1};
+        Scanner scan = new Scanner(System.in);
+
+        int[] arr = Arrays.stream(scan.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
         sort(arr);
 
-        for(int i : arr) {
-            System.out.print(i + " ");
+        for (int num : arr) {
+            System.out.print(num + " ");
         }
     }
 
-    public static void sort(int[] arr) {
-
-        for (int index = 0; index < arr.length; index++) {
-            int min = index;
-            for (int curr = index + 1; curr < arr.length; curr++) {
-                if (arr[curr] < arr[min]) {
-                    min = curr;
+    private static void sort(int[] arr) {
+        for (int i = 0; i < arr.length ; i++) {
+            int min = i;
+            for (int j = min + 1; j < arr.length; j++) {
+                if (arr[j] < arr[i]) {
+                    min = j;
                 }
             }
-            swap(arr, index, min);
+            if (min != i) {
+                swap(arr, i, min);
+            }
         }
     }
 
-    private static void swap(int[] arr, int first, int second) {
-        int temp = arr[first];
-        arr[first] = arr[second];
-        arr[second] = temp;
+    private static void swap(int[] arr, int i, int min) {
+        int temp = arr[i];
+        arr[i] = arr[min];
+        arr[min] = temp;
     }
 }
