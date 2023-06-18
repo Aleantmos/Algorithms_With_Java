@@ -50,14 +50,15 @@ public class _1_DistanceBetweenVerticals {
 
             int parent = prev[indexMapper.get(dest)];
 
+            int pathCount = -1;
+
             while (parent != -1) {
-                path.add(parent);
+                pathCount++;
                 parent = prev[parent];
             }
 
-            int size = path.isEmpty() ? -1 : path.size();
 
-            System.out.println(size);
+            System.out.println(pathCount == -1 ? pathCount : pathCount + 1);
         }
     }
 
