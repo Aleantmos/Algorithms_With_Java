@@ -16,6 +16,10 @@ public class _2_AreasInMatrix {
             this.source = new int[]{sRow, sCol};
             this.destination = new int[]{dRow, dCol};
         }
+
+        public void setDestination(int row, int col) {
+            this.destination = new int[] {row, col};
+        }
     }
 
     public static void main(String[] args) {
