@@ -35,7 +35,7 @@ public class _4_Salaries {
 
         for (int i = 0; i < managersCount.length; i++) {
             if (managersCount[i] == 0) {
-                sources.add(i)
+                sources.add(i);
                 break;
             }
         }
