@@ -7,7 +7,7 @@ public class _1_FibonacciSeq {
 
         int n = Integer.parseInt(scan.nextLine());
 
-        dp = new int[n + 1];
+        dp = new long[n + 1];
 
         long fib = getFib(n);
 
