@@ -28,6 +28,16 @@ public class _2_NuclearWaste {
                 }
             }
         }
-        System.out.println(dp[rounds]);
+        System.out.println("Cost: " + dp[rounds]);
+
+        StringBuilder result = new StringBuilder();
+        while (rounds > 0) {
+            result.append(prev[rounds])
+                    .append(" => ")
+                    .append(prices[prev[rounds]] - 1)
+                    .append(System.lineSeparator());
+            rounds -= prev[rounds];
+        }
+        System.out.println(result.toString());
     }
 }
