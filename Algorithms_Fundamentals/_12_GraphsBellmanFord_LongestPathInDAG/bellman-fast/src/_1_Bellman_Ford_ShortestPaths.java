@@ -29,7 +29,12 @@ public class _1_Bellman_Ford_ShortestPaths {
         int source = Integer.parseInt(scan.nextLine());
         int dest = Integer.parseInt(scan.nextLine());
 
-        bellmanFord(source);
+        try {
+            bellmanFord(source);
+        } catch (IllegalStateException e) {
+            System.out.println(e.getMessage());
+            return;
+        }
 
         List<Integer> path = new ArrayList<>();
 
@@ -70,6 +75,23 @@ public class _1_Bellman_Ford_ShortestPaths {
                                 distance[dest] = newValue;
                                 prev[dest] = source;
                             }
+                        }
+                    }
+                }
+            }
+        }
+
+        for (int r = 1; r < graph.length; r++) {
+            for (int c = 1; c < graph[r].length; c++) {
+                int weight = graph[r][c];
+                if (weight != 0) {
+                    int source = r;
+                    int dest= c;
+
+                    if (distance[r] != Integer.MAX_VALUE) {
+                        int newValue = distance[source] + weight;
+                        if (newValue < distance[dest]) {
+                            throw new IllegalStateException("Negative Cycle Detected");
                         }
                     }
                 }
