@@ -64,6 +64,7 @@ public class _1_CableNetwork {
         PriorityQueue<Edge> edges = graph.values()
                  .stream()
                 .flatMap(List::stream)
+                .filter(e -> ((used[e.from] && !used[e.to]) || (!used[e.from] && used[e.to])))
                 .collect(Collectors.toCollection(PriorityQueue::new));
 
         while (!edges.isEmpty()) {
@@ -75,6 +76,7 @@ public class _1_CableNetwork {
 
             int removedValue = -1;
 
+
             if (used[from] && !used[to]) {
                 used[to] = true;
                 removedValue = weight;
@@ -82,6 +84,12 @@ public class _1_CableNetwork {
                 used[from] = true;
                 removedValue = weight;
             }
+
+            edges.addAll(graph.values()
+                    .stream()
+                    .flatMap(List::stream)
+                    .filter(e -> ((used[e.from] && !used[e.to]) || (!used[e.from] && used[e.to])))
+                    .collect(Collectors.toCollection(PriorityQueue::new)));
 
             if (removedValue != -1 && budget - removedValue > 0) {
                 budget -= removedValue;
