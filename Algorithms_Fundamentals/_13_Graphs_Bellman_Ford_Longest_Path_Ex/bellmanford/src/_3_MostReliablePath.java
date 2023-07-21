@@ -1,7 +1,4 @@
-import java.util.Arrays;
-import java.util.Comparator;
-import java.util.PriorityQueue;
-import java.util.Scanner;
+import java.util.*;
 
 public class _3_MostReliablePath {
 
@@ -32,6 +29,10 @@ public class _3_MostReliablePath {
 
         boolean[] visited = new boolean[nodes];
 
+        int[] prev = new int[nodes];
+
+        Arrays.fill(prev, -1);
+
         distances[source] = 1.00;
 
         PriorityQueue<Integer> queue = new PriorityQueue<>(
@@ -56,6 +57,24 @@ public class _3_MostReliablePath {
                 }
             }
         }
-        System.out.println(distances[dest]);
+        System.out.printf("Most reliable path  reliability: %.2f%%%n", distances[dest]);
+
+        Deque<Integer> stack = new ArrayDeque<>();
+
+        stack.push(dest);
+
+        int node = prev[dest];
+
+        while (node != -1) {
+            stack.push(node);
+            node = prev[node];
+        }
+
+        while (!stack.isEmpty()) {
+            System.out.print(stack.pop());
+            if (stack.size() > 0) {
+                System.out.print(" -> ");
+            }
+        }
     }
 }
