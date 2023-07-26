@@ -14,11 +14,8 @@ public class ArticulationPoints {
 
 
     public static List<Integer> findArticulationPoints(List<Integer>[] targetGraph) {
-
         graph = targetGraph;
-
         points = new ArrayList<>();
-
         visited = new boolean[graph.length];
         parents = new int[graph.length];
         depths = new int[graph.length];
@@ -28,7 +25,7 @@ public class ArticulationPoints {
 
         discoverArticulationPoints(0, 1);
 
-        return null;
+        return points;
     }
 
     private static void discoverArticulationPoints(int node, int depth) {
