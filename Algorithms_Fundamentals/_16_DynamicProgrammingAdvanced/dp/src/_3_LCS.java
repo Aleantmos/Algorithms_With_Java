@@ -29,11 +29,15 @@ public class _3_LCS {
         Deque<Character> result = new ArrayDeque<>();
 
         while (row >= 0 && col >= 0) {
-            if (first.charAt(row) == second.charAt(cold)) {
+            if (first.charAt(row) == second.charAt(col)) {
                 result.push(first.charAt(row));
                 row--;
                 col--;
-            } else if (dp[row - 1][col] > dp[row][col - 1]) {
+            } else if (row > 0 && col == 0) {
+                row--;
+            } else if (row == 0 && col > 0) {
+                col--;
+            } else if (dp[row - 1][col] >= dp[row][col - 1]) {
                 row--;
             } else {
                 col--;
