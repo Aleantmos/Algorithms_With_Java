@@ -1,3 +1,5 @@
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.Scanner;
 
 public class _3_LCS {
@@ -20,5 +22,26 @@ public class _3_LCS {
             }
         }
         System.out.println(dp[first.length()][second.length()]);
+
+        int row = first.length() - 1;
+        int col = second.length() - 1;
+
+        Deque<Character> result = new ArrayDeque<>();
+
+        while (row >= 0 && col >= 0) {
+            if (first.charAt(row) == second.charAt(cold)) {
+                result.push(first.charAt(row));
+                row--;
+                col--;
+            } else if (dp[row - 1][col] > dp[row][col - 1]) {
+                row--;
+            } else {
+                col--;
+            }
+        }
+
+        while (!result.isEmpty()) {
+            System.out.println(result.pop());
+        }
     }
 }
