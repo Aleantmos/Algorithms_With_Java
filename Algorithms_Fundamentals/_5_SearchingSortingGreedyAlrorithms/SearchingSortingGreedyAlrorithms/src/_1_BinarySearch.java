@@ -13,11 +13,30 @@ public class _1_BinarySearch {
 
         int n = Integer.parseInt(scan.nextLine());
 
+        int start = 0;
+        int end = arr.length - 1;
 
-        System.out.println(getBinarySearch(arr, n));
+        System.out.println(getBinarySearch(arr, n, start, end));
     }
 
-    private static int getBinarySearch(int[] arr, int key) {
+    private static int getBinarySearch(int[] arr, int n, int start, int end) {
+        if (start > end) {
+            return -1;
+        }
+        int mid = (start + end) / 2;
+        int curr = arr[mid];
+
+        if (n < curr) {
+            end = mid - 1;
+        } else if (n > curr) {
+            start = mid + 1;
+        } else {
+            return mid;
+        }
+        return getBinarySearch(arr, n, start, end);
+    }
+
+    /*private static int getBinarySearch(int[] arr, int key) {
         int start = 0;
         int end = arr.length - 1;
 
@@ -35,5 +54,5 @@ public class _1_BinarySearch {
             }
         }
         return -1;
-    }
+    }*/
 }
