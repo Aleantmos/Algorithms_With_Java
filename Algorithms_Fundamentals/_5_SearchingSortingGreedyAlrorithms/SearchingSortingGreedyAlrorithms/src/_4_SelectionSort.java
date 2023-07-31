@@ -1,59 +1,40 @@
-public class _4_MergeSort {
+import java.util.Arrays;
+import java.util.Scanner;
+
+public class _4_SelectionSort {
     public static void main(String[] args) {
-        //Scanner scan = new Scanner(System.in);
+        Scanner scan = new Scanner(System.in);
 
-        int[] arr = {13, 15, 12, 24, 59};
-        
-        sort(arr);
+        int[] arr = Arrays.stream(scan.nextLine().split(" "))
+                .mapToInt(Integer::parseInt)
+                .toArray();
 
-        for (int num : arr) {
-            System.out.print(num + " ");
+        selectionSort(arr);
+
+        for (int element : arr) {
+            System.out.print(element + " ");
         }
-
     }
 
-    private static void sort(int[] arr) {
-        mergeSort(arr, 0, arr.length);
-    }
 
-    private static void mergeSort(int[] arr, int begin, int end) {
-        if (begin >= end) {
-            return;
-        }
+    private static void selectionSort(int[] arr) {
 
-        int mid = (begin + end) / 2;
-
-        mergeSort(arr, begin, mid);
-        mergeSort(arr, mid + 1, end);
-
-        merge(arr, begin, mid, end);
-    }
-
-    private static void merge(int[] arr, int begin, int mid, int end) {
-        if (mid < 0 || mid >= arr.length || arr[mid] < arr[mid + 1]) {
-            return;
-        }
-
-        int left = begin;
-        int right = mid + 1;
-
-        int[] helper = new int[arr.length];
-
-        for (int i = begin; i <= end; i++) {
-            helper[i] = arr[i];
-        }
-
-        for (int i = begin; i <= end; i++) {
-            if (left > mid) {
-                arr[i] = helper[right++];
-            } else if (right > end) {
-                arr[i] = helper[left++];
-            } else if (helper[left] < helper[right]) {
-                arr[i] = helper[left++];
-            } else {
-                arr[i] = helper[right++];
+        for (int i = 0; i < arr.length; i++) {
+            int min = i;
+            for (int j = i + 1; j < arr.length; j++) {
+               if (arr[j] < arr[min]) {
+                   min = j;
+               }
+            }
+            if (arr[i] > arr[min]) {
+                swap(arr, i, min);
             }
         }
     }
 
+    private static void swap(int[] arr, int i, int j) {
+        int temp = arr[i];
+        arr[i] = arr[j];
+        arr[j] = temp;
+    }
 }
