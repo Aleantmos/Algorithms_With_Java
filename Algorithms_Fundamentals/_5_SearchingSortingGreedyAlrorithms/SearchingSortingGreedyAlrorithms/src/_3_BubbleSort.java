@@ -17,6 +17,30 @@ public class _3_BubbleSort {
     }
 
     private static void sort(int[] arr) {
+        for (int i = 0; i <= arr.length - 2; i++) {
+            boolean swapped = false;
+            int k = i + 1;
+            while (k < arr.length) {
+                if (arr[i] > arr[k]) {
+                    swap(arr, i, k);
+                    swapped = true;
+                }
+                k++;
+            }
+            if (!swapped) {
+                break;
+            }
+        }
+    }
+
+    private static void swap(int[] arr, int i, int k) {
+        int temp = arr[i];
+        arr[i] = arr[k];
+        arr[k] = temp;
+    }
+
+
+    /*private static void sort(int[] arr) {
 
         for (int i = 0; i < arr.length; i++) {
             for (int j = i + 1; j < arr.length; j++) {
@@ -31,5 +55,5 @@ public class _3_BubbleSort {
         int temp = arr[i];
         arr[i] = arr[min];
         arr[min] = temp;
-    }
+    }*/
 }
