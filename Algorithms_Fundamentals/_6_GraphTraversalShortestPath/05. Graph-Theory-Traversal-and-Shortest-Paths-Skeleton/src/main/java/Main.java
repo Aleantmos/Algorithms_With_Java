@@ -84,6 +84,7 @@ public class Main {
 
     }
 
+/*      TOPOLOGICAL SORTING
 
     private static Map<String, Integer> getDependenciesCnt(Map<String, List<String>> graph) {
 
@@ -129,6 +130,41 @@ public class Main {
 
         return sorted;
     }
+    */
+
+    /*TOPOLOGICAL SORTING WITH DFS*/
+
+    public static List<String> topSort(Map<String, List<String>> graph) {
+
+        List<String> sorted = new ArrayList<>();
+
+        Set<String> visited = new HashSet<>();
+        Set<String> detectCycles = new HashSet<>();
+
+        for (Map.Entry<String, List<String>> node : graph.entrySet()) {
+            dfsTop(node.getKey(), visited, graph, sorted, detectCycles);
+        }
+
+        Collections.reverse(sorted);
+
+        return sorted;
+    }
+
+
+    public static void dfsTop(String key, Set<String> visited, Map<String, List<String>> graph, List<String> sorted, Set<String> detectCycles) {
+        if (detectCycles.contains(key)) {
+            throw new IllegalArgumentException();
+        }
+
+        if (!visited.contains(key)) {
+            visited.add(key);
+            detectCycles.add(key);
+
+            for (String child : graph.get(key)) {
+                dfsTop(child, visited, graph, sorted, detectCycles);
+            }
+            detectCycles.remove(key);
+            sorted.add(key);
+        }
+    }
 }
-
-
