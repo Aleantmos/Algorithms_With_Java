@@ -18,10 +18,10 @@ public class Main {
                 List<Integer> nextNodes = Arrays.stream(input.split("\\s+"))
                         .map(Integer::parseInt)
                         .collect(Collectors.toList());
+
                 graph.add(nextNodes);
             }
         }
-
         List<Deque<Integer>> connectedComponents = getConnectedComponents(graph);
 
         for (Deque<Integer> connectedComponent : connectedComponents) {
@@ -35,19 +35,20 @@ public class Main {
     }
 
     public static List<Deque<Integer>> getConnectedComponents(List<List<Integer>> graph) {
+
         boolean[] visited = new boolean[graph.size()];
 
         List<Deque<Integer>> components = new ArrayList<>();
 
         for (int start = 0; start < graph.size(); start++) {
             if (!visited[start]) {
-                components.add(new ArrayDeque<>());
-                dfs(start, components, graph, visited);
                 //bfs(start, components, graph, visited);
+                dfs(start, components, graph, visited);
             }
         }
 
         return components;
+
     }
 
     private static void bfs(int start, List<Deque<Integer>> components, List<List<Integer>> graph, boolean[] visited) {
@@ -57,12 +58,13 @@ public class Main {
         queue.offer(start);
 
         while (!queue.isEmpty()) {
-            int node = queue.poll();
+            Integer parent = queue.poll();
 
-            components.get(components.size() - 1).offer(node);
+            components.get(components.size() - 1).offer(parent);
 
-            for (int child : graph.get(node)) {
+            for (Integer child : graph.get(parent)) {
                 if (!visited[child]) {
+                    components.add(new ArrayDeque<>());
                     visited[child] = true;
                     queue.offer(child);
                 }
@@ -70,14 +72,11 @@ public class Main {
         }
     }
 
-    private static void dfs(int node,
-                            List<Deque<Integer>> components,
-                            List<List<Integer>> graph,
-                            boolean[] visited) {
+    private static void dfs(int node, List<Deque<Integer>> components, List<List<Integer>> graph, boolean[] visited) {
+
         if (!visited[node]) {
             visited[node] = true;
-
-            for (int child : graph.get(node)) {
+            for (Integer child : graph.get(node)) {
                 dfs(child, components, graph, visited);
             }
             components.get(components.size() - 1).offer(node);
@@ -86,7 +85,50 @@ public class Main {
     }
 
 
-    public static Collection<String> topSort(Map<String, List<String>> graph) {
-        throw new AssertionError("Not Implemented");
+    private static Map<String, Integer> getDependenciesCnt(Map<String, List<String>> graph) {
+
+        Map<String, Integer> depCnt = new LinkedHashMap<>();
+
+        for (Map.Entry<String, List<String>> node : graph.entrySet()) {
+            depCnt.putIfAbsent(node.getKey(), 0);
+            for (String child : node.getValue()) {
+                depCnt.putIfAbsent(child, 0);
+                depCnt.put(child, depCnt.get(child) + 1);
+            }
+        }
+        return depCnt;
+    }
+
+    public static List<String> topSort(Map<String, List<String>> graph) {
+
+        Map<String, Integer> dependenciesCnt = getDependenciesCnt(graph);
+
+        List<String> sorted = new ArrayList<>();
+
+        while (!graph.isEmpty()) {
+            String key = graph.keySet()
+                    .stream()
+                    .filter(k -> dependenciesCnt.get(k) == 0)
+                    .findFirst()
+                    .orElse(null);
+
+            if (key == null) {
+                break;
+            }
+            for (String child : graph.get(key)) {
+                dependenciesCnt.put(child, dependenciesCnt.get(child) - 1);
+            }
+
+            sorted.add(key);
+            graph.remove(key);
+        }
+
+        if (!graph.isEmpty()) {
+            throw new IllegalArgumentException();
+        }
+
+        return sorted;
     }
 }
+
+
