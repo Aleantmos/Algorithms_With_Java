@@ -21,9 +21,8 @@ public class Dijkstra {
             int parent = queue.poll();
             visited[parent] = true;
 
-            int[] children = Arrays.stream(graph[parent])
-                    .filter(child -> child != 0)
-                    .toArray();
+            int[] children = graph[parent];
+
             for (int child = 0; child < children.length; child++) {
                 if (children[child] != 0 && !visited[child]) {
                     queue.offer(child);
@@ -37,11 +36,12 @@ public class Dijkstra {
                 }
             }
         }
+
         List<Integer> path = new ArrayList<>();
 
         path.add(destinationNode);
 
-        int n = prev[sourceNode];
+        int n = prev[destinationNode];
 
         while (n != -1) {
             path.add(n);
