@@ -3,12 +3,96 @@ import com.sun.tools.javac.Main;
 import java.util.*;
 
 public class _2_AreasInMatrix {
-    public static List<Edge> graph = new ArrayList<>();
-    public static char[][] matrix;
-    public static boolean[][] visited;
-    public static boolean[] visitedNode;
 
-    public static class Edge {
+    static class Edge {
+        private int row;
+        private int col;
+
+        public Edge(int row, int col) {
+            this.row = row;
+            this.col = col;
+        }
+    }
+    public static void main(String[] args) {
+        Scanner scan = new Scanner(System.in);
+
+        int n = Integer.parseInt(scan.nextLine());
+
+        char[][] graph = new char[n][];
+        boolean[][] visited = new boolean[n][];
+
+        for (int i = 0; i < n; i++) {
+            graph[i] = scan.nextLine().toCharArray();
+            visited[i] = new boolean[graph[i].length];
+        }
+
+
+        Map<Character, Integer> areas = new HashMap<>();
+
+        for (int row = 0; row < graph.length; row++) {
+            for (int col = 0; col < graph[row].length; col++) {
+                if (!visited[row][col]) {
+                    char currSymbol = graph[row][col];
+                    areas.putIfAbsent(currSymbol, 0);
+                    areas.put(currSymbol, areas.get(currSymbol) + 1);
+                    bfs(row, col, graph, visited, areas, graph[row][col]);
+                }
+            }
+        }
+
+        int total = 0;
+
+        for (Character key : areas.keySet()) {
+            total += areas.get(key);
+        }
+        System.out.println("Areas: " + total);
+
+        for (Character character : areas.keySet()) {
+            System.out.printf("Letter '%s' -> %d%n", character, areas.get(character));
+        }
+
+    }
+
+    private static void bfs(int row, int col, char[][] graph, boolean[][] visited, Map<Character, Integer> areas, char currSymbol) {
+        Deque<Edge> queue = new ArrayDeque<>();
+
+        Edge edge = new Edge(row, col);
+
+        queue.offer(edge);
+
+        while (!queue.isEmpty()) {
+            Edge node = queue.poll();
+
+            visited[node.row][node.col] = true;
+
+            if (isInBound(node.row + 1, node.col, graph) && !visited[node.row + 1][node.col] && graph[node.row + 1][node.col] == currSymbol) {
+                Edge child = new Edge(node.row + 1, node.col);
+
+                queue.offer(child);
+            }
+            if (isInBound(node.row, node.col + 1, graph) && !visited[node.row][node.col + 1] && graph[node.row][node.col + 1] == currSymbol) {
+                Edge child = new Edge(node.row, node.col + 1);
+
+                queue.offer(child);
+            }
+            if (isInBound(node.row - 1, node.col, graph) && !visited[node.row - 1][node.col] && graph[node.row - 1][node.col] == currSymbol) {
+                Edge child = new Edge(node.row - 1, node.col);
+
+                queue.offer(child);
+            }
+            if (isInBound(node.row, node.col - 1, graph) && !visited[node.row][node.col - 1] && graph[node.row][node.col - 1] == currSymbol) {
+                Edge child = new Edge(node.row , node.col - 1);
+
+                queue.offer(child);
+            }
+        }
+    }
+
+    private static boolean isInBound(int row, int col, char[][] graph) {
+        return row >= 0 && row < graph.length && col >= 0 && col < graph[row].length;
+    }
+
+    /*public static class Edge {
         int[] source;
         int[] destination;
 
@@ -16,11 +100,14 @@ public class _2_AreasInMatrix {
             this.source = new int[]{sRow, sCol};
             this.destination = new int[]{dRow, dCol};
         }
-
-        public void setDestination(int row, int col) {
-            this.destination = new int[] {row, col};
-        }
     }
+
+
+    public static List<Edge> graph = new ArrayList<>();
+    public static char[][] matrix;
+    public static boolean[][] visited;
+
+    public static boolean[] visitedNode;
 
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
@@ -45,9 +132,6 @@ public class _2_AreasInMatrix {
         visitedNode = new boolean[graph.size()];
 
         Map<Character, Integer> areas = new TreeMap<>();
-
-
-
         for (int i = 0; i < graph.size(); i++) {
             if(!visitedNode[i]) {
                 Edge edge = graph.get(i);
@@ -105,5 +189,5 @@ public class _2_AreasInMatrix {
 
     private static boolean isOutOfBounds(int row, int col) {
         return row < 0 || row >= matrix.length || col < 0 || matrix[row].length >= col;
-    }
+    }*/
 }
