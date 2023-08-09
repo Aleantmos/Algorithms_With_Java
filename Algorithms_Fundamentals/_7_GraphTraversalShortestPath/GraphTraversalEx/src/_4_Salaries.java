@@ -36,7 +36,6 @@ public class _4_Salaries {
         for (int i = 0; i < managersCount.length; i++) {
             if (managersCount[i] == 0) {
                 sources.add(i);
-                break;
             }
         }
         for (Integer source : sources) {
@@ -66,10 +65,10 @@ public class _4_Salaries {
                 salaries[child] = sum == 0 ? 1 : sum;
             }
         }
-        int sum = graph.get(child).stream()
+        int sum = graph.get(node).stream()
                 .mapToInt(c -> salaries[c])
                 .sum();
 
-        salaries[child] = sum == 0 ? 1 : sum;
+        salaries[node] = sum == 0 ? 1 : sum;
     }
 }
