@@ -31,7 +31,7 @@ public class _4_RodCutting {
 
         int currentBest = bestPrices[length];
 
-        for (int i = 1; i < length; i++) {
+        for (int i = 1; i <= length; i++) {
             int localMax = Math.max(currentBest, prices[i] + cutRope(length - i));
 
             if (localMax > currentBest) {
