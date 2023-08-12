@@ -8,7 +8,7 @@ public class _2_LongestIncreasingSubsequence {
 
         Scanner scan = new Scanner(System.in);
 
-        int[] sequence = { 3, 14, 5, 12, 15, 7, 8, 9, 11, 10, 1};
+        int[] sequence = { 1, 2, 5, 3, 4 };
 
         int[] length = new int[sequence.length];
         int[] prev = new int[sequence.length];
@@ -45,12 +45,12 @@ public class _2_LongestIncreasingSubsequence {
         int index = maxIndex;
 
         while (index != -1) {
-            LIS.add(sequence[maxIndex]);
-            index = prev[maxIndex];
+            LIS.add(sequence[index]);
+            index = prev[index];
         }
 
         for (int i = LIS.size() - 1; i >= 0; i--) {
-            System.out.println(LIS.get(i) + " ");
+            System.out.print(LIS.get(i) + " ");
         }
     }
 }
