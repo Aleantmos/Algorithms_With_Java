@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class _3_MoveDownRightSum {
     public static void main(String[] args) {
@@ -65,9 +62,13 @@ public class _3_MoveDownRightSum {
 
             path.add(formatOutput(row, col));
         }
+
+        Collections.reverse(path);
+
+        System.out.println(String.join(", ", path));
     }
 
     private static String formatOutput(int row, int col) {
-        return "[" + row + col + "]";
+        return "[" + row + " " + col + "]";
     }
 }
