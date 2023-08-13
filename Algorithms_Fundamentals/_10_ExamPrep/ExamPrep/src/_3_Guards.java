@@ -1,46 +1,70 @@
 import java.util.*;
 
 public class _3_Guards {
-
-    //finish
-
-    private static final Set<Integer> visitedNodes = new HashSet<>();
-
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
-        Map<Integer, Set<Integer>> graph = new HashMap<>();
-
         int nodes = Integer.parseInt(scan.nextLine());
-        int edgeCount = Integer.parseInt(scan.nextLine());
+        int edges = Integer.parseInt(scan.nextLine());
 
-        for (int i = 0; i < nodes; i++) {
-            graph.put(i + 1, new HashSet<>());
-        }
+        Map<Integer, List<Integer>> graph = new HashMap<>();
+        boolean[] visited;
 
-        for (int i = 0; i < edgeCount; i++) {
-            String[] edge = scan.nextLine().split(" ");
-            int from = Integer.parseInt(edge[0]);
-            int to = Integer.parseInt(edge[1]);
+        for (int i = 0; i < edges; i++) {
+            int[] input = Arrays.stream(scan.nextLine().split("\\s+"))
+                    .mapToInt(Integer::parseInt)
+                    .toArray();
 
+            int from = input[0];
+            int to = input[1];
+
+            graph.putIfAbsent(from, new ArrayList<>());
             graph.get(from).add(to);
+
         }
 
-        int startNode = Integer.parseInt(scan.nextLine());
+        int source = Integer.parseInt(scan.nextLine());
 
-        dfs(graph, startNode);
+        List<Integer> disconnected = new ArrayList<>();
+
+
+        for (int dest = 1; dest <= nodes; dest++) {
+            visited = new boolean[nodes + 1];
+            bfs(source, dest, graph, visited, disconnected);
+            if (!visited[dest]) {
+                disconnected.add(dest);
+            }
+        }
+
+        StringBuilder sb = new StringBuilder();
+        for (Integer element : disconnected) {
+            sb.append(element).append(System.lineSeparator());
+        }
+        System.out.println(sb.toString().trim());
     }
 
-    private static void dfs(Map<Integer, Set<Integer>> graph, int currentNode) {
-        if (visitedNodes.contains(currentNode)) {
+    private static void bfs(int parent, int dest,
+                            Map<Integer, List<Integer>> graph,
+                            boolean[] visited,
+                            List<Integer> disconnected) {
+        if (parent == dest) {
+            visited[dest] = true;
             return;
         }
-        Set<Integer> connectedNodes = graph.get(currentNode);
 
-        visitedNodes.add(currentNode);
+        visited[parent] = true;
 
-        for (Integer connectedNode : connectedNodes) {
-            dfs(graph, connectedNode);
+        List<Integer> children = graph.get(parent);
+
+        if (children == null) {
+            return;
+        }
+
+        for (Integer child : children) {
+            if (!visited[child]) {
+                visited[child] = true;
+                bfs(child, dest, graph, visited, disconnected);
+            }
         }
     }
 }
