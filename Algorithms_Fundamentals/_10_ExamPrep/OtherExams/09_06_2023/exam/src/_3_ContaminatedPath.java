@@ -1,7 +1,6 @@
 import java.util.*;
 
 public class _3_ContaminatedPath {
-    //40/100 deadlock between two contaminated points unchecked
     public static void main(String[] args) {
         Scanner scan = new Scanner(System.in);
 
@@ -32,6 +31,10 @@ public class _3_ContaminatedPath {
             contaminationPoints[i][1] = points[1];
         }
 
+        for (int i = 0; i < contaminationPoints.length; i++) {
+            matrix[contaminationPoints[i][0]][contaminationPoints[i][1]] = Integer.MIN_VALUE;
+        }
+
         int[][] helper = new int[cnt][cnt];
 
         helper[0][0] = matrix[0][0];
@@ -45,13 +48,9 @@ public class _3_ContaminatedPath {
 
         for (int row = 1; row < matrix.length; row++) {
             for (int col = 1; col < matrix.length; col++) {
-                if (checkPoints(contaminationPoints, row, col)) {
-                    helper[row][col] = 0;
-                } else {
-                    helper[row][col] = Math.max(helper[row - 1][col] + matrix[row][col],
-                            helper[row][col - 1] + matrix[row][col]);
+                helper[row][col] = Math.max(helper[row - 1][col] + matrix[row][col],
+                        helper[row][col - 1] + matrix[row][col]);
 
-                }
             }
         }
 
@@ -82,9 +81,6 @@ public class _3_ContaminatedPath {
 
             printOutput(row, col, result);
 
-            /*    helper[row][col] = Math.max(helper[row - 1][col] + matrix[row][col],
-                        helper[row][col - 1] + matrix[row][col]);
-            */
         }
 
         System.out.println("Max total fertility: " + helper[helper.length - 1][helper.length - 1]);
@@ -104,14 +100,4 @@ public class _3_ContaminatedPath {
         result.add(String.format("(%d, %d)", row, col));
     }
 
-
-
-    private static boolean checkPoints(int[][] contaminationPoints, int row, int col) {
-        for (int[] contaminationPoint : contaminationPoints) {
-            if (row == contaminationPoint[0] && col == contaminationPoint[1]) {
-                return true;
-            }
-        }
-        return false;
-    }
 }
