@@ -4,7 +4,96 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class _2_SocialMediaTracker {
-    public static class Edge {
+
+    // not my solution but awesome nonetheless
+    public static void main(String[] args) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+
+        int edges = Integer.parseInt(reader.readLine());
+        Map<String, Map<String, Integer>> graph = new HashMap<>();
+
+        Map<String, int[]> distAndHops = new HashMap<>();
+
+        for (int i = 0; i < edges; i++) {
+            String[] tokens = reader.readLine().split("\\s+");
+
+            String from = tokens[0];
+            String to = tokens[1];
+            int influence = Integer.parseInt(tokens[2]);
+
+
+            graph.putIfAbsent(from, new HashMap<>());
+            graph.get(from).put(to, influence);
+
+            distAndHops.put(from, new int[]{Integer.MAX_VALUE, 0});
+            distAndHops.put(to, new int[]{Integer.MAX_VALUE, 0});
+        }
+
+        String source = reader.readLine();
+        String dest = reader.readLine();
+
+        distAndHops.get(source)[0] = 0;
+
+        Set<String> visited = new HashSet<>();
+
+        ArrayDeque<String> stackOfNodes = new ArrayDeque<>();
+        for (String node : graph.keySet()) {
+            topSorts(node, stackOfNodes, visited, graph);
+        }
+
+        while (!stackOfNodes.isEmpty()) {
+            String parent = stackOfNodes.poll();
+            Map<String, Integer> children = graph.get(parent);
+
+            if (children != null) {
+                for (String child : children.keySet()) {
+                    int influence = children.get(child);
+
+                    int newInf = distAndHops.get(parent)[0] + influence;
+                    int currInf = distAndHops.get(child)[0];
+
+                    int newHops = distAndHops.get(parent)[1] + 1;
+                    int currHops = distAndHops.get(child)[1];
+
+                    if (newInf > currInf || (newInf == currInf && newHops < currHops)) {
+                        distAndHops.get(child)[0] = newInf;
+                        distAndHops.get(child)[1] = newHops;
+                    }
+                }
+            }
+        }
+        System.out.printf("(%d, %d)%n", distAndHops.get(dest)[0],
+                distAndHops.get(dest)[1]);
+    }
+
+    private static void topSorts(String node,
+                                 ArrayDeque<String> stackOfNodes,
+                                 Set<String> visited, Map<String, Map<String, Integer>> graph) {
+
+        if (visited.contains(node)) {
+            return;
+        }
+
+        visited.add(node);
+
+        Map<String, Integer> edges = graph.get(node);
+
+        if (edges != null) {
+
+            for (String child : edges.keySet()) {
+                topSorts(child, stackOfNodes, visited, graph);
+            }
+
+            stackOfNodes.push(node);
+        }
+    }
+}
+
+
+
+
+
+    /*public static class Edge {
         String to;
         int dist;
 
@@ -86,5 +175,5 @@ public class _2_SocialMediaTracker {
             }
         }
 
-    }
-}
+    }*/
+
